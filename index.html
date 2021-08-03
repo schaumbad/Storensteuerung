@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+button { 
+  font-size: 1.5em; 
+  height: 150px; width:150px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-right:  5px;
+  user-select: none;
+}
+div.arrow {
+  font-size:3.5em;
+}
+
+button:active {
+  background-color: lightgreen;
+  transform: translateY(5px);
+}
+
+div.group {
+  margin-top:  25px;
+  margin-left: 30px;
+}
+</style>
+
+<body onload="init()">
+
+<div class="group">
+<div>
+<button onclick="sendLong (relayNordAuf,relayNordAb)"><div class="arrow">&#x21E7</div>Nord</button>
+<button onclick="sendShort(relayNordAuf,relayNordAb)"><div class="arrow">&#x21A5</div>Nord</button>
+</div>
+<div>
+<button onclick="sendLong (relayNordAb,relayNordAuf)"><div class="arrow">&#x21E9</div>Nord</button>
+<button onclick="sendShort(relayNordAb,relayNordAuf)"><div class="arrow">&#x21A7</div>Nord</button>
+</div>
+</div>
+
+<div class="group">
+<div>
+<button onclick="sendLong (relaySuedAuf,relaySuedAb)"><div class="arrow">&#x21E7</div>Süd</button>
+<button onclick="sendShort(relaySuedAuf,relaySuedAb)"><div class="arrow">&#x21A5</div>Süd</button>
+</div>
+<div>
+<button onclick="sendLong (relaySuedAb,relaySuedAuf)"><div class="arrow">&#x21E9</div>Süd</button>
+<button onclick="sendShort(relaySuedAb,relaySuedAuf)"><div class="arrow">&#x21A7</div>Süd</button>
+</div>
+</div>
+
+
+<script>
+const shellyNord = "http://192.168.0.23"
+const shellySued = "http://192.168.0.24"
+
+const relaySuedAuf = shellySued + "/relay/0"
+const relaySuedAb  = shellySued + "/relay/1"
+const relayNordAuf = shellyNord + "/relay/0"
+const relayNordAb  = shellyNord + "/relay/1"
+
+function sendOff(relay)   { return fetch(relay + "?turn=off"); }
+function sendOn(relay)    { return fetch(relay + "?turn=on&timer=1"); }
+
+var lastPromise = 0;
+
+function init() {
+  lastPromise = Promise.all([
+    fetch(shellyNord + "/status"),
+    fetch(shellySued + "/status")
+  ]);
+  lastPromise.catch(failureCallback);
+}
+
+
+function sendLong(relay, opposite) {
+  lastPromise = lastPromise
+    .then(response => sendOff(opposite))
+    .then(response => sendOff(relay))
+    .then(response => sendOn(relay))
+    .catch(failureCallback);
+}
+
+function sendShort(relay, opposite) {
+  lastPromise = lastPromise
+    .then(response => sendOff(opposite))
+    .then(response => sendOff(relay))
+    .then(response => sendOn(relay))
+    .then(response => sendOff(relay))
+    .catch(failureCallback);
+}
+
+function failureCallback(err) {
+  console.log(err);
+}
+
+</script>
+
+</body>
+</html>
