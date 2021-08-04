@@ -77,7 +77,7 @@ const relayNordAuf = shellyNord + "/relay/0"
 const relayNordAb  = shellyNord + "/relay/1"
 
 function sendOff(relay)   { return fetch(relay + "?turn=off"); }
-function sendOn(relay)    { return fetch(relay + "?turn=on&timer=1"); }
+function sendOn(relay)    { return fetch(relay + "?turn=on&timer=2"); }
 
 var lastPromise = 0;
 
