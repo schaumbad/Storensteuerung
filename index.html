@@ -76,8 +76,9 @@ const relaySuedAb  = shellySued + "/relay/1"
 const relayNordAuf = shellyNord + "/relay/0"
 const relayNordAb  = shellyNord + "/relay/1"
 
-function sendOff(relay)   { return fetch(relay + "?turn=off"); }
-function sendOn(relay)    { return fetch(relay + "?turn=on&timer=2"); }
+function sendOff(relay)     { return fetch(relay + "?turn=off"); }
+function sendOnLong(relay)  { return fetch(relay + "?turn=on&timer=2"); }
+function sendOnShort(relay) { return fetch(relay + "?turn=on&timer=1"); }
 
 var lastPromise = 0;
 
@@ -94,7 +95,7 @@ function sendLong(relay, opposite) {
   lastPromise = lastPromise
     .then(response => sendOff(opposite))
     .then(response => sendOff(relay))
-    .then(response => sendOn(relay))
+    .then(response => sendOnLong(relay))
     .catch(failureCallback);
 }
 
@@ -102,7 +103,7 @@ function sendShort(relay, opposite) {
   lastPromise = lastPromise
     .then(response => sendOff(opposite))
     .then(response => sendOff(relay))
-    .then(response => sendOn(relay))
+    .then(response => sendOnShort(relay))
     .then(response => sendOff(relay))
     .catch(failureCallback);
 }
