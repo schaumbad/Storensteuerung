@@ -92,6 +92,7 @@ function init() {
 
 
 function sendLong(relay, opposite) {
+  navigator.vibrate(400);
   lastPromise = lastPromise
     .then(response => sendOff(opposite))
     .then(response => sendOff(relay))
@@ -100,6 +101,7 @@ function sendLong(relay, opposite) {
 }
 
 function sendShort(relay, opposite) {
+  navigator.vibrate(200);
   lastPromise = lastPromise
     .then(response => sendOff(opposite))
     .then(response => sendOff(relay))
