@@ -90,24 +90,39 @@ function init() {
   lastPromise.catch(failureCallback);
 }
 
+function toggleBusyState() {
+  let s = document.activeElement.style;
+  if (s.isBusyCounter === undefined) {
+    s.isBusyCounter = 0;
+  }
+  s.border = "4px outset blue"
+  ++s.isBusyCounter;
+  return () => {
+    if (!--s.isBusyCounter)
+      s.border = "" };
+}
 
 function sendLong(relay, opposite) {
+  var toggle = toggleBusyState();
   navigator.vibrate(400);
   lastPromise = lastPromise
     .then(response => sendOff(opposite))
     .then(response => sendOff(relay))
     .then(response => sendOnLong(relay))
-    .catch(failureCallback);
+    .catch(failureCallback)
+    .finally(toggle);
 }
 
 function sendShort(relay, opposite) {
+  var toggle = toggleBusyState();
   navigator.vibrate(200);
   lastPromise = lastPromise
     .then(response => sendOff(opposite))
     .then(response => sendOff(relay))
     .then(response => Promise.all([sendOnShort(relay), createWait(200)]))
     .then(response => sendOff(relay))
-    .catch(failureCallback);
+    .catch(failureCallback)
+    .finally(toggle);
 }
 
 function createWait(milliseconds) {
