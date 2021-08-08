@@ -105,9 +105,15 @@ function sendShort(relay, opposite) {
   lastPromise = lastPromise
     .then(response => sendOff(opposite))
     .then(response => sendOff(relay))
-    .then(response => sendOnShort(relay))
+    .then(response => Promise.all([sendOnShort(relay), createWait(200)]))
     .then(response => sendOff(relay))
     .catch(failureCallback);
+}
+
+function createWait(milliseconds) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => { resolve(); }, milliseconds);
+  });
 }
 
 function failureCallback(err) {
