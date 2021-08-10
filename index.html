@@ -142,9 +142,10 @@ function failureCallback(err) {
 })();
 
 function onTouchend(event) {
-  var q = document.querySelector("button:active");
-  if (q)
-    q.click();
+  if (event.currentTarget.matches("button:active")) {
+    event.currentTarget.click();
+    event.preventDefault();
+  }
 }
 
 
