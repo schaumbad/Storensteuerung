@@ -46,21 +46,21 @@ div.group {
 <h1>Nord</h1>
 <div>
 <button onclick="sendLong (event, relayNordAuf,relayNordAb)">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 24 24">
     <use href="#arrow"/></svg>
 </button>
 <button onclick="sendShort(event, relayNordAuf,relayNordAb)">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 24 24">
     <use href="#shortArrow"/></svg>
 </button>
 </div>
 <div>
 <button onclick="sendLong (event, relayNordAb,relayNordAuf)">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 24 24">
     <use transform="scale(1,-1) translate(0,-24)" href="#arrow"/></svg>
 </button>
 <button onclick="sendShort(event, relayNordAb,relayNordAuf)">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 24 24">
     <use transform="scale(1,-1) translate(0,-24)" href="#shortArrow"/></svg>
 </button>
 </div>
@@ -70,21 +70,21 @@ div.group {
 <h1>Süd</h1>
 <div>
 <button onclick="sendLong (event, relaySuedAuf,relaySuedAb)">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 24 24">
     <use href="#arrow"/></svg>
 </button>
 <button onclick="sendShort(event, relaySuedAuf,relaySuedAb)">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 24 24">
     <use href="#shortArrow"/></svg>
 </button>
 </div>
 <div>
 <button onclick="sendLong (event, relaySuedAb,relaySuedAuf)">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 24 24">
     <use transform="scale(1,-1) translate(0,-24)" href="#arrow"/></svg>
 </button>
 <button onclick="sendShort(event, relaySuedAb,relaySuedAuf)">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 24 24">
     <use transform="scale(1,-1) translate(0,-24)" href="#shortArrow"/></svg>
 </button>
 </div>
@@ -182,8 +182,7 @@ function onTouchend(event) {
 
 </script>
 
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  style="display:none" viewBox="0 0 24 24">
+<svg style="display:none" viewBox="0 0 24 24">
   <path id="arrow" fill="gray" d="M5.23 10.64a1 1 0 0 0 1.41.13L11 7.14V19a1 1 0 0 0 2 0V7.14l4.36 3.63a1 1 0 1 0 1.28-1.54l-6-5l-.15-.09l-.13-.07a1 1 0 0 0-.72 0l-.13.07l-.15.09l-6 5a1 1 0 0 0-.13 1.41z"/>
   <path id="shortArrow" fill="gray" d="M18 15a1 1 0 0 1-.64-.23L12 10.29l-5.37 4.32a1 1 0 0 1-1.41-.15a1 1 0 0 1 .15-1.41l6-4.83a1 1 0 0 1 1.27 0l6 5a1 1 0 0 1 .13 1.41A1 1 0 0 1 18 15z"/>
 </svg>
