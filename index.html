@@ -11,13 +11,14 @@ html {
 
 h1 {
   margin-bottom: 5px;
+  margin-top:    5px;
 }
 
 button {
-  height: 100px; width:100px;
+  height: 80px; width: 80px;
   border-radius: 10px;
   margin-bottom: 10px;
-  margin-right:  5px;
+  margin-right:  20px;
   padding:       15px;
   user-select: none;
   border: 3px outset gray;
@@ -46,7 +47,7 @@ svg {
 }
 
 div.group {
-  margin-top:  20px;
+  margin-top:  10px;
   margin-left: 20px;
 }
 
@@ -55,45 +56,68 @@ div.group {
 <body onload="init()">
 
 <div class="group">
-<h1>Nord</h1>
+<h1>Wohnzimmer</h1>
 <div>
-<button onclick="sendLong (event, relayNordAuf,relayNordAb)">
+<button onclick="sendLong (lastPromiseNord, event, relayNordAuf,relayNordAb)">
   <svg><use href="#arrow"/></svg>
 </button>
-<button onclick="sendShort(event, relayNordAuf,relayNordAb)">
+<button onclick="sendShort(lastPromiseNord, event, relayNordAuf,relayNordAb)">
   <svg><use href="#shortArrow"/></svg>
 </button>
 </div>
 <div class="down">
-<button onclick="sendLong (event, relayNordAb,relayNordAuf)">
+<button onclick="sendLong (lastPromiseNord, event, relayNordAb,relayNordAuf)">
   <svg><use href="#arrow"/></svg>
 </button>
-<button onclick="sendShort(event, relayNordAb,relayNordAuf)">
+<button onclick="sendShort(lastPromiseNord, event, relayNordAb,relayNordAuf)">
   <svg><use href="#shortArrow"/></svg>
 </button>
 </div>
 </div>
 
 <div class="group">
-<h1>Süd</h1>
+<h1>Adi</h1>
 <div>
-<button onclick="sendLong (event, relaySuedAuf,relaySuedAb)">
+<button onclick="sendLong (lastPromiseSued, event, relaySuedAuf,relaySuedAb)">
   <svg><use href="#arrow"/></svg>
 </button>
-<button onclick="sendShort(event, relaySuedAuf,relaySuedAb)">
+<button onclick="sendShort(lastPromiseSued, event, relaySuedAuf,relaySuedAb)">
   <svg><use href="#shortArrow"/></svg>
 </button>
 </div>
 <div class="down">
-<button onclick="sendLong (event, relaySuedAb,relaySuedAuf)">
+<button onclick="sendLong (lastPromiseSued, event, relaySuedAb,relaySuedAuf)">
   <svg><use href="#arrow"/></svg>
 </button>
-<button onclick="sendShort(event, relaySuedAb,relaySuedAuf)">
+<button onclick="sendShort(lastPromiseSued, event, relaySuedAb,relaySuedAuf)">
   <svg><use href="#shortArrow"/></svg>
 </button>
 </div>
 </div>
 
+<div class="group">
+<h1>Beide</h1>
+<div>
+<button onclick="sendLong (lastPromiseNord, event, relayNordAuf,relayNordAb);
+                 sendLong (lastPromiseSued, event, relaySuedAuf,relaySuedAb)">
+  <svg><use href="#arrow"/></svg>
+</button>
+<button onclick="sendShort(lastPromiseNord, event, relayNordAuf,relayNordAb);
+                 sendShort(lastPromiseSued, event, relaySuedAuf,relaySuedAb)">
+  <svg><use href="#shortArrow"/></svg>
+</button>
+</div>
+<div class="down">
+<button onclick="sendLong (lastPromiseNord, event, relayNordAb,relayNordAuf);
+                 sendLong (lastPromiseSued, event, relaySuedAb,relaySuedAuf)">
+  <svg><use href="#arrow"/></svg>
+</button>
+<button onclick="sendShort(lastPromiseNord, event, relayNordAb,relayNordAuf);
+                 sendShort(lastPromiseSued, event, relaySuedAb,relaySuedAuf)">
+  <svg><use href="#shortArrow"/></svg>
+</button>
+</div>
+</div>
 
 <script>
 const shellyNord = "http://192.168.0.23"
@@ -108,14 +132,14 @@ function sendOff(relay)     { return fetch(relay + "?turn=off"); }
 function sendOnLong(relay)  { return fetch(relay + "?turn=on&timer=2"); }
 function sendOnShort(relay) { return fetch(relay + "?turn=on&timer=1"); }
 
-var lastPromise = 0;
+var lastPromiseNord = 0;
+var lastPromiseSued = 0;
 
 function init() {
-  lastPromise = Promise.all([
-    fetch(shellyNord + "/status"),
-    fetch(shellySued + "/status")
-  ]);
-  lastPromise.catch(failureCallback);
+  lastPromiseNord = fetch(shellyNord + "/status");
+  lastPromiseSued = fetch(shellySued + "/status");
+  lastPromiseNord.catch(failureCallback);
+  lastPromiseSued.catch(failureCallback);
 }
 
 function toggleBusyState(element) {
@@ -137,7 +161,7 @@ function toggleBusyState(element) {
 }
 
 
-function sendLong(event, relay, opposite) {
+function sendLong(lastPromise, event, relay, opposite) {
   var toggle = toggleBusyState(event.currentTarget);
   navigator.vibrate(400);
   lastPromise = lastPromise
@@ -148,7 +172,7 @@ function sendLong(event, relay, opposite) {
     .finally(toggle);
 }
 
-function sendShort(event, relay, opposite) {
+function sendShort(lastPromise, event, relay, opposite) {
   var toggle = toggleBusyState(event.currentTarget);
   navigator.vibrate(200);
   lastPromise = lastPromise
